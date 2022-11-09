@@ -1,0 +1,46 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: "Add the user 'johnd'" #nome del task
+    ansible.builtin.user: #comando invocato
+      name: johnd #parametro del comando
+      password: $6$9dDbPR3D1$zkDivlyTfe4TwL6XiFoPf4/X7g.mjsh2w73KeZozp9UjavuZYTgMxaDha2rjSR.EH4/2iYfqhSVImXRnOiyeG.
+      create_home: yes
+      comment: John Doe
+  - authorized_key:
+      user: johnd
+      state: present
+      key: "{{ lookup('file', '~/.ssh/id_rsa_ansible.pub') }}"
+  - name: Copy script
+    become: yes #per eseguire con i privilegi giusti
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/Es6/copy.sh
+      dest: /home/vagrant/copy.sh
+      owner: root
+      group: root
+      mode: '0700'
+  - name: Copy config file
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/Es6/save.list
+      dest: /home/vagrant/save.list
+      owner: root
+      group: root
+      mode: '0600'
+  - name: Ensure passwd is not backed up
+    become: yes
+    ansible.builtin.lineinfile:
+      path: /etc/save.list
+      state: absent
+      regexp: '^/etc/(shadow|group|shadow)'
+  - name: Make johnd a sudoer
+    become: yes
+    ansible.builtin.lineinfile:
+      path: /etc/sudoers
+      
+      
+
+
+
+
+

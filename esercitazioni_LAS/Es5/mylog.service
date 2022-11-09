@@ -1,0 +1,15 @@
+[Unit]
+Description=enable logging on channel1.info
+Requires= rsyslog.service
+DefaultDependencies=no
+
+[Service]
+PIDFile=/tmp/sd.pid
+Type=oneshot
+ExecStart=/home/las/logchannel.sh start
+ExecStop=/home/las/logchannel.sh stop
+RemainAfterExit=true
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=multi-user.target

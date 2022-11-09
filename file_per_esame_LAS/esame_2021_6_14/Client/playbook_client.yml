@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file network/interfaces in client
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/file_per_esame_LAS/file_config/client/interfaces
+      dest: /etc/network/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: Client

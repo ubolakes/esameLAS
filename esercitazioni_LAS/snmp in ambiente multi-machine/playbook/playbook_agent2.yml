@@ -1,0 +1,29 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file network/interfaces in agent2
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/snmp\ in\ ambiente\ multi-machine/file\ configurazione/agent2/interfaces
+      dest: /etc/network/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: agent2
+  - name: Installazione snmpd
+    become: yes
+    ansible.builtin.apt:
+      name: snmpd
+      state: latest
+      update_cache: yes
+  - name: Copia di snmp.conf su agent
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/snmp\ in\ ambiente\ multi-machine/file\ configurazione/agent2/snmpd.conf
+      dest: /etc/snmpd/
+      owner: root
+      group: root
+      mode: '0600'

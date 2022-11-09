@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "las/bullseye64"
+
+  config.vm.network "private_network", virtualbox__intnet: "LAN1", auto_config: false
+
+  config.vm.provider "virtualbox" do |vb|
+      vb.linked_clone = true
+  end
+  config.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook_agent2.yml"
+  end
+
+end

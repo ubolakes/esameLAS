@@ -1,0 +1,30 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file network/interfaces in server
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/file_per_esame_LAS/file_config/server/interfaces
+      dest: /etc/network/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: Server
+  - name: Copia script failback.sh
+    become: yes
+    ansible.builtin.copy:    
+      src: /home/umberto/Scrivania/file_per_esame_LAS/esame_2021_6_14/Server1/failback.sh
+      dest: /home/vagrant/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Esecuzione con crontab di failback.sh
+    become: yes    
+    ansible.builtin.cron:
+      name: "execute operation"
+      minute: "1-59/2" #minuti dispari
+      job: "/home/vagrant/failback.sh"
+

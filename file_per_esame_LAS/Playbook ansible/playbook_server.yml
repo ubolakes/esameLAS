@@ -1,0 +1,23 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file network/interfaces in server
+    become: yes
+    ansible.builtin.copy:
+      src: <path sorgente>
+      dest: /etc/network/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: Server
+  - name: copia file nsswitch.conf per uso di ldap
+    become: yes
+    ansible.builtin.copy:
+      src: <path sorgente>
+      dest: /etc/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'

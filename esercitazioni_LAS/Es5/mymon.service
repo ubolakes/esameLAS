@@ -1,0 +1,13 @@
+[Unit]
+Description=Log RAM usage and heaviest process PID
+Requires=mylog.service
+DefaultDependencies=no
+
+[Service]
+PIDFile=/tmp/mymon.pid
+Type=simple
+ExecStart=/home/las/ramlog.sh
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=multi-user.target

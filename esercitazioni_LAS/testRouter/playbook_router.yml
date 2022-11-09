@@ -1,0 +1,37 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file di network interfaces per router
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/file_per_esame_LAS/file_config/router/interfaces
+      dest: /etc/network/
+      owner: root
+      group: root
+      mode: '0600'
+  - name: Installa dnsmasq
+    become: yes
+    ansible.builtin.apt:
+      name: dnsmasq
+      state: latest
+      update_cache: yes
+  - name: Copia di sysctl.conf in router
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/file_per_esame_LAS/file_config/router/sysctl.conf
+      dest: /etc/
+      owner: root
+      group: root
+      mode: '0600'
+  - name: Copia di dnsmasq.conf in router
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/file_per_esame_LAS/file_config/router/dnsmasq.conf
+      dest: /etc/
+      owner: root
+      group: root
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: Router1

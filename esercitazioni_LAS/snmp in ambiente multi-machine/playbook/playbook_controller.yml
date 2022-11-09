@@ -1,0 +1,44 @@
+- hosts: all
+  become: yes
+  tasks:
+  - name: Copia file network/interfaces in controller
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/snmp\ in\ ambiente\ multi-machine/file\ configurazione/controller/interfaces
+      dest: /etc/network/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Installa dnsmasq
+    become: yes
+    apt:
+      name: dnsmasq
+      state: latest
+      update_cache: yes
+  - name: Copia di dnsmasq.conf in controller
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/snmp\ in\ ambiente\ multi-machine/file\ configurazione/controller/dnsmasq.conf
+      dest: /etc/
+      owner: vagrant
+      group: vagrant
+      mode: '0600'
+  - name: Cambia hostname
+    become: yes
+    ansible.builtin.hostname:
+      name: controller
+  - name: Installazione di snmp
+    become: yes
+    ansible.builtin.apt:
+      name: snmp
+      state: latest
+      update_cache: yes
+  - name: Copia di sysctl.conf in controller
+    become: yes
+    ansible.builtin.copy:
+      src: /home/umberto/Scrivania/LabAmm/snmp\ in\ ambiente\ multi-machine/file\ configurazione/controller/sysctl.conf
+      dest: /etc/
+      owner: root
+      group: root
+      mode: '0600'
+    

@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup every 4 hours
+DefaultDependencies=no
+
+[Service]
+ExecStart=/home/labAmm/Es6/copy.sh #script da eseguire
+Restart=on-failure # restart automatico del processo
+TimeoutStartSec=5min
+
+[Install]
+WantedBy=multi-user.target #installo per tutti gli utenti
